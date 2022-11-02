@@ -1,4 +1,5 @@
 const { Client, GatewayIntentBits} = require('discord.js');
+const { Command } = require('./Command');
 const client = new Client({ 
   intents: 
     [
@@ -7,19 +8,13 @@ const client = new Client({
       GatewayIntentBits.GuildMessages
     ]
 });
-
 require('dotenv').config()
 const TOKEN = process.env.TOKEN
-const perfix = "!"
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
 });
-
-client.on("messageCreate",message => {
-  if(message.content === perfix + "ping"){
-    message.reply("pong")
-  }
-})
+// MMARK - Command is all discord command method
+Command(client)  
 
 client.login(TOKEN);
