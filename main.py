@@ -1,17 +1,25 @@
 import discord
-from discord.ext import commands
+from discord import app_commands
+
 from dotenv import dotenv_values
 config = dotenv_values(".env")
 TOKEN = config["TOKEN"]
 
-bot = commands.Bot()
+intents = discord.Intents.default()
+client = discord.Client(intents=intents)
+tree = app_commands.CommandTree(client)
 
-@bot.slash_command(name="first_slash", guild_ids=[897544446088970260]) 
-async def first_slash(ctx): 
-    await ctx.respond("You executed the slash command!")
+@tree.command(name = "commandname", description = "My first application Command")
+async def first_command(interaction):
+    await interaction.response.send_message("Hello!")
 
-@bot.slash_command(name="github", guild_ids=[897544446088970260])
-async def github(ctx):
-    await ctx.respond("https://github.com/2STO-DE")
+@tree.command(name = "github", description = "2STO github page")
+async def github(interaction):
+   await interaction.response.send_message("https://github.com/2STO-DE")
 
-bot.run(TOKEN)
+@client.event
+async def on_ready():
+    await tree.sync()
+    print("Ready!")
+
+client.run(TOKEN)
