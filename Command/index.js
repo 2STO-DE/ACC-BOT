@@ -7,7 +7,7 @@ var c = new Client({
         GatewayIntentBits.GuildMessages
       ]
   });
-const perfix = "!"
+const perfix = "/"
 
 module.exports.Command = (client) => {
     c = client
